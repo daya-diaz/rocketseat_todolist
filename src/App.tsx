@@ -1,12 +1,14 @@
 import { ChangeEvent, useState } from "react";
-import Header from "./components/Header"
-import TrashIcon from './assets/trash.png'
+import Header from "./components/Header";
+import TrashIcon from './assets/trash.png';
 // import Clipboard from './assets/clipboard.png'
 interface Todo {
   id: number,
   content: string
 }
 function App() {
+  let [taskCompleted, setTaskCompleted] = useState(0)
+  let [createdTasks, setCreatedTasks ] = useState(0);
   const [todosList, setTodosList] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState('');
 
@@ -21,10 +23,19 @@ function App() {
         id: Math.random()
       }
       setTodosList(prevTodosList => [...prevTodosList, newTodo]);
-
-
+      setCreatedTasks(createdTasks += 1);
+      //Ajustar
+      setInputValue('')
     }
   }
+
+  function handleDeleteTodo(id: number) {
+    const todosArray = todosList.filter(todo => {
+      return todo.id !== id;
+    })
+    setTodosList(todosArray);
+  }
+
   return (
     <div className="h-screen text-white">
       <Header />
@@ -56,11 +67,11 @@ function App() {
           <div className="flex justify-between w-full">
             <div className="flex gap-2 items-center justify-center">
               <p className="text-blue font-bold text-sm">Tarefas criadas</p>
-              <div className="px-2 py-1 bg-gray400 rounded-full text-xs text-gray200">0</div>
+              <div className="px-2 py-1 bg-gray400 rounded-full text-xs text-gray200">{createdTasks}</div>
             </div>
             <div className="flex gap-2 items-center justify-center">
               <p className="text-purple font-bold text-sm">Concluídas</p>
-              <div className="px-2 py-1 bg-gray400 rounded-full text-xs text-gray200">0</div>
+              <div className="px-2 py-1 bg-gray400 rounded-full text-xs text-gray200">{taskCompleted}</div>
             </div>
           </div>
 
@@ -77,18 +88,19 @@ function App() {
             {
               todosList.map((todo) => {
                 return (
-                  <div key={todo.id} className="flex justify-between p-4 rounded-lg bg-gray500 shadow-inner border-[1px] min-h-[72px] border-gray400 w-full">
+                  <div key={todo.id} className="flex justify-between items-center p-4 rounded-lg bg-gray500 shadow-inner border-[1px] min-h-[72px] border-gray400 w-full">
                     <div className="flex gap-3 align-top">
                       <input
-                        className="appearance-none m-1 w-4 h-4 border-2 border-blue border-blue-500 rounded-full bg-transparent cursor-pointer checked:bg-purple checked:border-0"
+                        
+                        className="m-1 w-4 h-4 border-2 border-blue border-blue-500 rounded-full bg-transparent cursor-pointer checked:bg-purple checked:border-0"
                         type="checkbox"
-                        id={JSON.stringify(todo.id)} />
+                        id={JSON.stringify(todo.id)}></input>
                       <label htmlFor={JSON.stringify(todo.id)} className="max-w-[632px] font-normal text-gray100 text-sm leading-6 text-left">{todo.content}</label>
                     </div>
 
-                    <button type="button" className="flex items-center justify-center w-6 h-6"><img src={TrashIcon} /></button>
+                    <button type="button" className="flex items-center justify-center w-6 h-6" onClick={() => handleDeleteTodo(todo.id)}><img src={TrashIcon} /></button>
                   </div>
-                )
+                ) 
               })
             }
 
