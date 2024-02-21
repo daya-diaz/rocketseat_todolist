@@ -1,8 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import Header from "./components/Header";
-import TrashIcon from './assets/trash.png';
 import Todo from "./components/Todo";
-// import Clipboard from './assets/clipboard.png'
+import Clipboard from './assets/clipboard.png'
 export interface Todo {
   id: number,
   content: string,
@@ -10,7 +9,7 @@ export interface Todo {
 }
 function App() {
   let [taskCompleted, setTaskCompleted] = useState(0)
-  let [createdTasks, setCreatedTasks ] = useState(0);
+  let [createdTasks, setCreatedTasks] = useState(0);
   const [todosList, setTodosList] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState('');
 
@@ -35,25 +34,25 @@ function App() {
   function handleCheckInput(id: number) {
     //altera o valor do isChecked
     todosList.map(todo => {
-      if(todo.id === id) {
+      if (todo.id === id) {
         let todoSelecionado = todo;
         todoSelecionado.isChecked = !todoSelecionado.isChecked;
 
-        if(todoSelecionado.isChecked === true) {
+        if (todoSelecionado.isChecked === true) {
           setTaskCompleted(taskCompleted += 1);
         } else {
-            setTaskCompleted(taskCompleted -= 1);
+          setTaskCompleted(taskCompleted -= 1);
         }
-      } 
+      }
     })
 
   }
 
   function handleDeleteTodo(id: number) {
     todosList.map(todo => {
-      if(todo.id === id) {
+      if (todo.id === id) {
         let todoSelecionado = todo;
-        if(todoSelecionado.isChecked === true) {
+        if (todoSelecionado.isChecked === true) {
           setTaskCompleted(taskCompleted -= 1);
         }
       }
@@ -83,7 +82,7 @@ function App() {
             type="button"
             className="flex items-center justify-center w-[13%] py-4 rounded-lg bg-blueDark font-bold hover:bg-blue"
             onClick={handleCreateTodo}
-            >
+          >
             Criar
           </button>
         </form>
@@ -105,29 +104,37 @@ function App() {
             </div>
           </div>
 
-          {/* <div className="flex items-center justify-center w-full">
-            <div className="flex flex-col gap-4 items-center justify-center w-full h-[244px] border-t border-gray400">
-              <img src={Clipboard} alt="Você não possui TODO's ainda" />
-              <p className="text-gray300 leading-6"><span className="font-bold">Você ainda não tem tarefas cadastradas</span> <br/>
-                Crie tarefas e organize seus itens a fazer
-              </p>
-            </div>
-          </div> */}
+          {
+            todosList.length === 0 ? (
+              <div className="flex items-center justify-center w-full">
+                <div className="flex flex-col gap-4 items-center justify-center w-full h-[244px] border-t border-gray400">
+                  <img src={Clipboard} alt="Você não possui TODO's ainda" />
+                  <p className="text-gray300 leading-6"><span className="font-bold">Você ainda não tem tarefas cadastradas</span> <br />
+                    Crie tarefas e organize seus itens a fazer
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-3">
+                {
+                  todosList.map((todo) => {
+                    return (
+                      <Todo
+                        content={todo.content}
+                        id={todo.id}
+                        handleCheckInput={() => { handleCheckInput(todo.id) }}
+                        handleDeleteTodo={() => { handleDeleteTodo(todo.id) }}
+                      />
+                    )
+                  })
+                }
+              </div>
+            )
+          }
 
-          <div className="flex flex-col gap-3">
-            {
-              todosList.map((todo) => {
-                return (
-                  <Todo 
-                    content={todo.content}
-                    id={todo.id} 
-                    handleCheckInput={() => {handleCheckInput(todo.id)}} 
-                    handleDeleteTodo={() => {handleDeleteTodo(todo.id)}}
-                  />
-                ) 
-              })
-            }
-          </div>
+
+
+
         </div>
       </div>
     </div>
