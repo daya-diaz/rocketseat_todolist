@@ -4,7 +4,8 @@ import TrashIcon from './assets/trash.png';
 // import Clipboard from './assets/clipboard.png'
 interface Todo {
   id: number,
-  content: string
+  content: string,
+  isChecked: boolean
 }
 function App() {
   let [taskCompleted, setTaskCompleted] = useState(0)
@@ -21,7 +22,8 @@ function App() {
     if (inputValue.trim() !== '') {
       const newTodo = {
         content: inputValue,
-        id: Math.random()
+        id: Math.random(),
+        isChecked: false,
       }
       setTodosList(prevTodosList => [...prevTodosList, newTodo]);
       setCreatedTasks(createdTasks += 1);
@@ -29,8 +31,32 @@ function App() {
       setInputValue("")
     }
   }
+  function handleCheckInput(id: number) {
+    //altera o valor do isChecked
+    todosList.map(todo => {
+      if(todo.id === id) {
+        let todoSelecionado = todo;
+        todoSelecionado.isChecked = !todoSelecionado.isChecked;
+
+        if(todoSelecionado.isChecked === true) {
+          setTaskCompleted(taskCompleted += 1);
+        } else {
+            setTaskCompleted(taskCompleted -= 1);
+        }
+      } 
+    })
+
+  }
 
   function handleDeleteTodo(id: number) {
+    todosList.map(todo => {
+      if(todo.id === id) {
+        let todoSelecionado = todo;
+        if(todoSelecionado.isChecked === true) {
+          setTaskCompleted(taskCompleted -= 1);
+        }
+      }
+    })
     const todosArray = todosList.filter(todo => {
       return todo.id !== id;
     })
@@ -94,7 +120,7 @@ function App() {
                   <div key={todo.id} className="flex justify-between items-center p-4 rounded-lg bg-gray500 shadow-inner border-[1px] min-h-[72px] border-gray400 w-full">
                     <div className="flex gap-3 align-top">
                       <input
-                        
+                        onClick={() => handleCheckInput(todo.id)}
                         className="m-1 w-4 h-4 border-2 border-blue border-blue-500 rounded-full bg-transparent cursor-pointer checked:bg-purple checked:border-0"
                         type="checkbox"
                         id={JSON.stringify(todo.id)}></input>
