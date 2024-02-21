@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import Header from "./components/Header";
 import TrashIcon from './assets/trash.png';
 // import Clipboard from './assets/clipboard.png'
@@ -16,7 +16,8 @@ function App() {
     setInputValue(event.target.value);
   }
 
-  function handleCreateTodo() {
+  function handleCreateTodo(e: FormEvent) {
+    e.preventDefault();
     if (inputValue.trim() !== '') {
       const newTodo = {
         content: inputValue,
@@ -43,18 +44,19 @@ function App() {
         {
           //Formulario para enviar valores dos to-dos
         }
-        <form className="flex w-[736px] gap-2 items-center justify-center">
+        <form onSubmit={handleCreateTodo} className="flex w-[736px] gap-2 items-center justify-center">
           <input
             type="text"
             placeholder="Adicione uma nova tarefa"
             onChange={handleChangeInput}
             value={inputValue}
-            className="flex-1 p-4 bg-gray500 rounded-lg outline-none placeholder:text-gray300 focus:border-purpleDark focus:border-[1px]"
+            className="flex-1 max-h-[56px] p-4 bg-gray500 rounded-lg outline-none placeholder:text-gray300 focus:border-purpleDark focus:border-[1px]"
           />
           <button
             type="button"
             className="flex items-center justify-center w-[13%] py-4 rounded-lg bg-blueDark font-bold hover:bg-blue"
-            onClick={handleCreateTodo}>
+            onClick={handleCreateTodo}
+            >
             Criar
           </button>
         </form>
