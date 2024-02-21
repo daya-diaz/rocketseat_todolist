@@ -25,7 +25,7 @@ function App() {
       setTodosList(prevTodosList => [...prevTodosList, newTodo]);
       setCreatedTasks(createdTasks += 1);
       //Ajustar
-      setInputValue('')
+      setInputValue("")
     }
   }
 
@@ -34,8 +34,8 @@ function App() {
       return todo.id !== id;
     })
     setTodosList(todosArray);
+    setCreatedTasks(createdTasks -= 1);
   }
-
   return (
     <div className="h-screen text-white">
       <Header />
@@ -48,6 +48,7 @@ function App() {
             type="text"
             placeholder="Adicione uma nova tarefa"
             onChange={handleChangeInput}
+            value={inputValue}
             className="flex-1 p-4 bg-gray500 rounded-lg outline-none placeholder:text-gray300 focus:border-purpleDark focus:border-[1px]"
           />
           <button
@@ -71,7 +72,7 @@ function App() {
             </div>
             <div className="flex gap-2 items-center justify-center">
               <p className="text-purple font-bold text-sm">Concluídas</p>
-              <div className="px-2 py-1 bg-gray400 rounded-full text-xs text-gray200">{taskCompleted}</div>
+              <div className="px-2 py-1 bg-gray400 rounded-full text-xs text-gray200">{`${taskCompleted} de ${createdTasks}`}</div>
             </div>
           </div>
 
@@ -103,10 +104,7 @@ function App() {
                 ) 
               })
             }
-
           </div>
-
-
         </div>
       </div>
     </div>
