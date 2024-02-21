@@ -2,11 +2,13 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import Header from "./components/Header";
 import Todo from "./components/Todo";
 import Clipboard from './assets/clipboard.png'
+
 export interface Todo {
   id: number,
   content: string,
   isChecked: boolean
 }
+
 function App() {
   let [taskCompleted, setTaskCompleted] = useState(0)
   let [createdTasks, setCreatedTasks] = useState(0);
@@ -31,6 +33,7 @@ function App() {
       setInputValue("")
     }
   }
+
   function handleCheckInput(id: number) {
     //altera o valor do isChecked
     todosList.map(todo => {
@@ -63,13 +66,11 @@ function App() {
     setTodosList(todosArray);
     setCreatedTasks(createdTasks -= 1);
   }
+
   return (
     <div className="h-screen text-white">
       <Header />
       <div className="flex flex-col fixed top-[173px] m-auto gap-16 items-center justify-center left-1/4">
-        {
-          //Formulario para enviar valores dos to-dos
-        }
         <form onSubmit={handleCreateTodo} className="flex w-[736px] gap-2 items-center justify-center">
           <input
             type="text"
@@ -86,13 +87,7 @@ function App() {
             Criar
           </button>
         </form>
-        {
-          // div que vai aparecer os to-dos
-        }
         <div className="flex flex-col gap-6 w-[736px]">
-          {
-            // header da div
-          }
           <div className="flex justify-between w-full">
             <div className="flex gap-2 items-center justify-center">
               <p className="text-blue font-bold text-sm">Tarefas criadas</p>
@@ -131,9 +126,6 @@ function App() {
               </div>
             )
           }
-
-
-
 
         </div>
       </div>

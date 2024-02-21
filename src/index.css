@@ -6,3 +6,10 @@ input[type="checkbox"]:checked + label {
   text-decoration: line-through;
   color: #808080;
 }
+
+input[type="checkbox"]:checked::before {
+  content: '\2713';
+  font-size: 13px;
+  color: #fff;
+  background-color: transparent;
+}
